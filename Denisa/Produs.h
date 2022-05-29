@@ -10,8 +10,6 @@
 #include <vector>
 #include "Data.h"
 
-#pragma once
-
 using namespace std;
 
 class Produs {
@@ -28,6 +26,7 @@ public:
     Produs(string nume, string codBare, int cantitate, double pret, Data *expData);
     ~Produs();
     Produs &operator=(const Produs &);
+    friend bool operator <(const Produs & x, const Produs & y);
     friend ostream &operator<<(ostream &os, Produs &x);
     string get_nume();
     double get_pret();

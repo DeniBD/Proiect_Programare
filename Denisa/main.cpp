@@ -8,11 +8,13 @@
 #include "Produs.h"
 #include "Comanda.h"
 #include "CosCumparaturi.h"
+
 vector<Produs> produseStoc;
 vector<Comanda> comenzi;
 vector<Produs> produse_cos;
-vector<int> nr_produse;
+map<Produs,int> M;
 CosCumparaturi cos;
+
 void MENIU_PRINCIPAL();
 void SELECTARE_PRODUS();
 void PRODUSE_MAGAZIN();
@@ -35,7 +37,8 @@ void read_stoc() {
         content = content.substr(pos + delim.length());
         //cantitate_produs
         pos = content.find(delim);
-        cantitate = stoi(content.substr(0, pos));
+        string temp = content.substr(0, pos);
+        cantitate = stoi(temp);
         content = content.substr(pos + delim.length());
         //pret
         pos = content.find(delim);
@@ -45,9 +48,11 @@ void read_stoc() {
         pos = content.find(delim);
         data = content.substr(0, pos);
         content = content.substr(pos + delim.length());
+
         Data *d = new Data(data);
         //cout << *d;
         Produs produs(nume, codBare, cantitate, pret, d);
+        // cout << produs;
         produseStoc.push_back(produs);
     }
     fin.close();
@@ -87,7 +92,7 @@ void read_comenzi() {
             nr_prod.push_back(cantitate);
         }
         Comanda c(d, cod_bare, nr_prod);
-        // cout<<c;
+        // cout << c;
         comenzi.push_back(c);
     }
     fin.close();
@@ -97,6 +102,11 @@ bool cautare_produs_cos(int optiune_selectata){
         if(produse_cos[i].get_nume() == produse_cos[optiune_selectata - 1].get_nume())
             return 0;
     return 1;
+}
+void GOLIRE_COS_CUMPARATURI(){
+    cos.~CosCumparaturi();
+    produse_cos.~vector();
+    M.~map();
 }
 void AFISARE_COS_CUMPARATURI(){
     system("cls");
@@ -125,7 +135,7 @@ void COS_CUMPARATURI(){
     while (optiune_selectata < 1 || optiune_selectata > 7) {
         cin >> optiune_selectata;
         if (optiune_selectata == 1) {
-            //AFISARE_COS_CUMPARATURI();
+            AFISARE_COS_CUMPARATURI();
         } else if (optiune_selectata == 2) {
             //MODIFICARE_CANTITATE();
         } else if (optiune_selectata == 3) {
@@ -136,6 +146,9 @@ void COS_CUMPARATURI(){
             //GOLIRE_COS_CUMPARATURI();
         } else if (optiune_selectata == 6) {
             //PLASARE_COMANDA();
+            //scriere comanda in fisier comenzi
+            //golire cos cumparaturi
+            //modificare stoc
         } else if (optiune_selectata == 7) {
             MENIU_PRINCIPAL();
         } else
@@ -147,15 +160,7 @@ void CONFIRMARE_ADAUGARE_PRODUS_COS(int optiune_selectata){
     printf("\n---------------------------------------------------------------------------------------------------------\n");
     printf("                                               PRODUSE MAGAZIN                                              \n");
     printf("---------------------------------------------------------------------------------------------------------\n\n");
-    //produse_cos.push_back(produseStoc[optiune_selectata - 1]);
-    //ADAUGARE_PRODUS_COS
-    /*if(cautare_produs_cos(optiune_selectata)) {
-        produse_cos.push_back(produseStoc[optiune_selectata - 1]);
-        nr_produse[optiune_selectata - 1]++;
-    }
-    else
-        nr_produse[optiune_selectata - 1]++;
-*/
+    produse_cos.push_back(produseStoc[optiune_selectata - 1]);
     cout <<"\n\t\t\t\tAti adaugat "<<produseStoc[optiune_selectata - 1].get_nume()<<" in Cosul de cumparaturi!" ;
     printf("\n\n\n\t\t\tApasati orice tasta pentru a reveni la 'MENIU PRINCIPAL'");
     getch();
@@ -204,7 +209,7 @@ void PRODUSE_MAGAZIN(){
 }
 void MENIU_PRINCIPAL(){
     system("cls");
-    int optiune_selectata = 0, key_pressed = 0;
+    int optiune_selectata = 0;
     printf("\n------------------------------------------------------------------------------------------------------\n");
     printf("                                            MENIU PRINCIPAL                                          \n");
     printf("------------------------------------------------------------------------------------------------------\n\n");
@@ -217,12 +222,11 @@ void MENIU_PRINCIPAL(){
             PRODUSE_MAGAZIN();
         } else if (optiune_selectata == 2) {
             COS_CUMPARATURI();
-        }
-        else
+        } else {
             MENIU_PRINCIPAL();
+        }
     }
 }
-
 
 int main() {
     /*
@@ -232,7 +236,7 @@ int main() {
     read_comenzi();
     for (int i = 0; i < comenzi.size(); i++)
         cout << comenzi[i];
-        */
+    */
     read_stoc();
     read_comenzi();
     MENIU_PRINCIPAL();

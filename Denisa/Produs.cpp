@@ -34,6 +34,10 @@ Produs& Produs::operator=(const Produs & x) {
     this->nume = x.nume;
     this->codBare = x.codBare;
 
+    return *this;
+}
+bool operator <(const Produs &x, const Produs &y) {
+
 }
 Produs::Produs() {
 }
