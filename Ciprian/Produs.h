@@ -1,59 +1,34 @@
-//
-// Created by Daniel on 18-May-22.
-//
+#ifndef PRODUS_H
+#define PRODUS_H
 
-#ifndef CLPROJECT_PRODUS_H
-#define CLPROJECT_PRODUS_H
+#include <string>
+#include <vector>
+#include "Data.h"
 
-class Data;
+using namespace std;
 
 class Produs {
-    char *nume;
-    char *codBare;
+    string nume;
+    string codBare;
     int cantitate;
     double pret;
     Data *expData;
+    int id;
+    static int next_id;
 public:
     Produs();
-    Produs(char*,char*,int,double,Data*);
-    Produs(const Produs&);
+    int getID() { return id; }
+    Produs(string nume, string codBare, int cantitate, double pret, Data *expData);
     ~Produs();
-    void afisare();
-    void modif_cantitate(int);
+    Produs &operator=(const Produs &);
+    friend bool operator <(const Produs & x, const Produs & y);
+    friend ostream &operator<<(ostream &os, Produs &x);
+    string get_nume();
+    double get_pret();
+    string get_cod_bare();
+    int get_cantitate();
+    Data* get_data();
+
 };
 
-class Data{
-    int zi;
-    int luna;
-    int an;
-public:
-    Data();
-    Data(int,int,int);
-    Data(char*);
-    Data(const Data&);
-    void afisare();
-};
-
-class Comanda{
-    Produs **produse;
-    Data *dataPlasare;
-    double pret;
-    int nrProduse;
-public:
-    Comanda();
-    Comanda(Produs**,Data*,double,int);
-    Comanda(const Comanda&);
-    ~Comanda();
-};
-
-class CosCumparaturi{
-    Produs **produse;
-    double pret;
-    int nrProduse;
-public:
-    CosCumparaturi();
-    CosCumparaturi(Produs**,double,int);
-    CosCumparaturi(const CosCumparaturi&);
-    ~CosCumparaturi();
-};
-#endif //CLPROJECT_PRODUS_H
+#endif // PRODUS_H

@@ -66,3 +66,4 @@ int Produs::get_cantitate(){
 Data* Produs::get_data(){
     return this->expData;
 }
+
