@@ -4,7 +4,7 @@
 using namespace std;
 
 Comanda::Comanda() {
-
+    this->data_plasare = nullptr;
 }
 
 Comanda::Comanda(Data *d, vector<string> codBare, vector<int> nrProduse) {
@@ -12,6 +12,12 @@ Comanda::Comanda(Data *d, vector<string> codBare, vector<int> nrProduse) {
         this->data_plasare = d;
     this->nrProduse = nrProduse;
     this->codBare = codBare;
+}
+
+Comanda::Comanda(const Comanda &c){
+    this->codBare = c.codBare;
+    this->nrProduse = c.nrProduse;
+    this->data_plasare = c.data_plasare;
 }
 
 Comanda::~Comanda() {

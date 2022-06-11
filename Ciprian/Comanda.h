@@ -15,6 +15,7 @@ class Comanda {
 public:
     Comanda();
     Comanda(Data *data, vector<string> c, vector<int> nrProduse);
+    Comanda(const Comanda &);
     ~Comanda();
     Comanda &operator=(const Comanda &);
     friend ostream &operator<<(ostream &os, Comanda &x);

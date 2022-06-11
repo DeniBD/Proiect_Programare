@@ -7,9 +7,11 @@
 #include <iostream>
 
 using namespace std;
+
 int Produs::next_id = 1;
+
 ostream &operator<<(ostream &os, Produs &x) {
-    os <<"["<<x.getID()<<"] \tNume produs: " << x.nume << endl << "\tPret produs: " << x.pret <<" lei"<< endl << "\tData expirare: " << *x.expData << endl;
+    os <<"["<<x.getID()<<"] \tNume produs: " << x.nume << endl << "\tPret produs: " << x.pret <<" lei"<< endl <<"\tCantitate: "<<x.cantitate<<endl<< "\tData expirare: " << *x.expData << endl;
     return os;
 }
 
@@ -33,19 +35,42 @@ Produs& Produs::operator=(const Produs & x) {
     this->cantitate = x.cantitate;
     this->nume = x.nume;
     this->codBare = x.codBare;
-
+    this->id = x.id;
     return *this;
 }
 bool operator <(const Produs &x, const Produs &y) {
 
 }
 Produs::Produs() {
+    this->cantitate = 0;
+    this->nume = "";
+    this->codBare = "";
+    this->expData = nullptr;
+    this->pret = 0;
+    this->id = next_id++;
+}
+
+Produs::Produs(const Produs &p){
+    this->nume = p.nume;
+    this->codBare = p.codBare;
+    this->cantitate = p.cantitate;
+    this->pret = p.pret;
+    this->expData = p.expData;
+    this->id = p.id;
 }
 
 Produs::~Produs() {
-    /*if(this->expData != nullptr)
-        delete this->expData;*/
+    if(this->expData != nullptr)
+        delete this->expData;
+
 }
+
+Produs& Produs::operator +=(const int c){
+    this->cantitate += c;
+    return *this;
+}
+
+
 
 string Produs::get_nume() {
     return nume;
@@ -64,6 +89,12 @@ int Produs::get_cantitate(){
 }
 
 Data* Produs::get_data(){
-    return this->expData;
+    if(this->expData != nullptr)
+        return this->expData;
+    else
+        return nullptr;
 }
 
+void Produs::set_pret(double p){
+    this->pret = p;
+}
