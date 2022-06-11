@@ -8,6 +8,14 @@
 #include "Data.h"
 #include "Produs.h"
 #include "Comanda.h"
+#include <windows.h>
+
+#define GREEN 2
+#define BLUE 9
+#define LIGHT_BLUE 11
+#define RED 12
+#define YELLOW 14
+#define WHITE 15
 
 using namespace std;
 
@@ -29,6 +37,7 @@ void modif_pret(int);
 void produse_expirate();
 void sterge_produse_expirate();
 void vezi_comenzi();
+void set_color(int);
 
 int main() {
 
@@ -36,6 +45,11 @@ int main() {
     read_comenzi();
     main_menu();
     return 0;
+}
+
+void set_color(int color_code) {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, color_code);
 }
 
 void vezi_comenzi(){
@@ -88,7 +102,9 @@ void sterge_produse_expirate(){
                 }
     }
     system("cls");
-    cout<<"Produsele expirate au fost sterse\n\n";
+    set_color(GREEN);
+    cout<<"\nProdusele expirate au fost sterse\n\n";
+    set_color(WHITE);
     system("pause");
     system("cls");
     main_menu();
@@ -96,6 +112,11 @@ void sterge_produse_expirate(){
 }
 
 void produse_expirate(){
+    set_color(LIGHT_BLUE);
+    printf("\n---------------------------------------------------------------------------------------------------------\n");
+    printf("                                             Produse expirate                                              \n");
+    printf("---------------------------------------------------------------------------------------------------------\n\n");
+    set_color(WHITE);
     std::time_t t = std::time(0);
     std::tm* now = std::localtime(&t);
     int k=0;
@@ -109,12 +130,17 @@ void produse_expirate(){
                 else if(d->get_zi() < (now->tm_mday))
                 {cout<<*item; k=1;}
     }
-    if(!k)
-        cout<<" Nu exista produse expirate\n\n";
+    if(!k){
+        set_color(RED);
+        cout<<"\nNu exista produse expirate\n\n";
+        set_color(WHITE);
+        }
     cout<<"[1] Sterge produse expirate\n";
     cout<<"[2] Meniu principal\n";
+    set_color(YELLOW);
     cout<<"Introdu optiunea: ";
     cin>>option;
+    set_color(WHITE);
     system("cls");
     switch(option){
     case 1:
@@ -124,30 +150,38 @@ void produse_expirate(){
         main_menu();
         break;
     default:
-        cout<<option<<" nu e o optiune valabila\n\n";
+        set_color(RED);
+        cout<<"\n"<<option<<" nu e o optiune valabila\n\n";
+        set_color(WHITE);
         produse_expirate();
     }
 }
 
 void modif_pret(int key){
+    set_color(LIGHT_BLUE);
     printf("\n---------------------------------------------------------------------------------------------------------\n");
     printf("                                             Modificare pret                                              \n");
     printf("---------------------------------------------------------------------------------------------------------\n\n");
+    set_color(WHITE);
     for(auto item : produseStoc)
         if(item->getID() == key){
             cout<<*item;
             break;
         }
     double cantit;
+    set_color(YELLOW);
     cout<<"Introdu noul pret: ";
     cin>>cantit;
+    set_color(WHITE);
     for(auto item : produseStoc)
         if(item->getID() == key){
             item->set_pret(cantit);
             break;
         }
     system("cls");
-    cout<<"Pretul a fost mofificat\n";
+    set_color(GREEN);
+    cout<<"\nPretul a fost mofificat\n";
+    set_color(WHITE);
     for(auto item : produseStoc)
         if(item->getID() == key){
             cout<<*item;
@@ -160,24 +194,30 @@ void modif_pret(int key){
 }
 
 void modif_cantitate(int key){
+    set_color(LIGHT_BLUE);
     printf("\n---------------------------------------------------------------------------------------------------------\n");
     printf("                                           Modificare cantitate                                              \n");
     printf("---------------------------------------------------------------------------------------------------------\n\n");
+    set_color(WHITE);
     for(auto item : produseStoc)
         if(item->getID() == key){
             cout<<*item;
             break;
         }
     int cantit;
+    set_color(YELLOW);
     cout<<"Introdu cantitatea ce va fi adaugata: ";
     cin>>cantit;
+    set_color(WHITE);
     for(auto item : produseStoc)
         if(item->getID() == key){
             *item += cantit;
             break;
         }
     system("cls");
-    cout<<"Cantitatea a fost mofificata\n";
+    set_color(GREEN);
+    cout<<"\nCantitatea a fost mofificata\n";
+    set_color(WHITE);
     for(auto item : produseStoc)
         if(item->getID() == key){
             cout<<*item;
@@ -190,17 +230,21 @@ void modif_cantitate(int key){
 }
 
 void produs_menu(int key){
+    set_color(LIGHT_BLUE);
     printf("\n---------------------------------------------------------------------------------------------------------\n");
     printf("                                               Modificare date                                              \n");
     printf("---------------------------------------------------------------------------------------------------------\n\n");
+    set_color(WHITE);
     for( auto item : produseStoc)
         if(item->getID() == key)
             cout<<*item;
     cout<<"[1] Modificare cantitate\n";
     cout<<"[2] Modificare pret\n";
     cout<<"[3] Meniu principal\n";
+    set_color(YELLOW);
     cout<<"Introdu optiunea: ";
     cin>>option;
+    set_color(WHITE);
     system("cls");
     switch(option){
     case 1:
@@ -213,22 +257,29 @@ void produs_menu(int key){
         main_menu();
         break;
     default:
-        cout<<option<<" nu e o optiune valabila\n\n";
+        set_color(RED);
+        cout<<"\n"<<option<<" nu e o optiune valabila\n\n";
+        set_color(WHITE);
         produs_menu(key);
     }
 }
 
 void modif_date(){
+    set_color(LIGHT_BLUE);
     printf("\n---------------------------------------------------------------------------------------------------------\n");
     printf("                                               Modificare date                                              \n");
     printf("---------------------------------------------------------------------------------------------------------\n\n");
+    set_color(YELLOW);
     vezi_produse();
     cout<<"Alege un produs: ";
     int prod;
     cin>>prod;
+    set_color(WHITE);
     if(prod > produseStoc.size()){
         system("cls");
-        cout<<prod<<" nu e o optiune valabila\n\n";
+        set_color(RED);
+        cout<<"\n"<<prod<<" nu e o optiune valabila\n\n";
+        set_color(WHITE);
         modif_date();
     }
     else{
@@ -248,12 +299,15 @@ void store_content(){
 
 void adaugare_produs(){
     system("cls");
+    set_color(LIGHT_BLUE);
     printf("\n---------------------------------------------------------------------------------------------------------\n");
     printf("                                               ADAUGARE PRODUS                                              \n");
     printf("---------------------------------------------------------------------------------------------------------\n\n");
+    set_color(WHITE);
     string cod_bare,nume,data;
     int cantitate;
     double pret;
+    set_color(YELLOW);
     cout<<"Cod de bare produs: ";
     cin>>cod_bare;cout<<endl;
     cout<<"Nume : ";
@@ -264,12 +318,15 @@ void adaugare_produs(){
     cin>>pret;cout<<endl;
     cout<<"Data expirare: ";
     cin>>data;cout<<endl;
+    set_color(WHITE);
     Data *d = new Data(data);
     Produs *produs;
     produs = new Produs(nume, cod_bare, cantitate, pret, d);
     produseStoc.push_back(produs);
     system("cls");
+    set_color(GREEN);
     cout<<"\nProdusul a fost adaugat\n\n";
+    set_color(WHITE);
     system("pause");
     system("cls");
     store_content();
@@ -277,16 +334,20 @@ void adaugare_produs(){
 }
 
 void vizualizare_stoc_menu(){
+    set_color(LIGHT_BLUE);
     printf("\n---------------------------------------------------------------------------------------------------------\n");
     printf("                                               PRODUSE STOC                                              \n");
     printf("---------------------------------------------------------------------------------------------------------\n\n");
+    set_color(WHITE);
     vezi_produse();
     cout<<"[1] Modifica date produs\n";
     cout<<"[2] Vizualizare produse expirate\n";
     cout<<"[3] Adaugare produs nou\n";
     cout<<"[4] Inapoi\n";
+    set_color(YELLOW);
     cout<<"Introdu optiunea: \n";
     cin>>option;
+    set_color(WHITE);
     system("cls");
     switch(option){
     case 1:
@@ -302,20 +363,26 @@ void vizualizare_stoc_menu(){
         main_menu();
         break;
     default:
-        cout<<option<<" nu e o optiune valabila\n\n";
+        set_color(RED);
+        cout<<"\n"<<option<<" nu e o optiune valabila\n\n";
         vizualizare_stoc_menu();
+        set_color(WHITE);
     }
 }
 
 void main_menu(){
+    set_color(LIGHT_BLUE);
     printf("\n---------------------------------------------------------------------------------------------------------\n");
     printf("                                               MENIU PRINCIPAL                                              \n");
     printf("---------------------------------------------------------------------------------------------------------\n\n");
+    set_color(WHITE);
     cout<<"[1] Vizualizare stoc\n";
     cout<<"[2] Vizualizare istoric comenzi\n";
     cout<<"[3] Opreste aplicatia\n";
+    set_color(YELLOW);
     cout<<"Introdu optiunea: ";
     cin>>option;
+    set_color(WHITE);
     system("cls");
     switch (option) {
         case 1:
@@ -327,7 +394,9 @@ void main_menu(){
         case 3:
             return; //se intoarce in main
         default:
-            cout<<option<<" nu e o optiune disponibila\n";
+            set_color(RED);
+            cout<<"\n"<<option<<" nu e o optiune disponibila\n";
+            set_color(WHITE);
             main_menu();
             break;
     }
