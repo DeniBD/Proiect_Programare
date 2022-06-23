@@ -3,16 +3,21 @@
 #include <vector>
 #include <map>
 
-class CosCumparaturi{
-    vector<Produs> produse;
+class CosCumparaturi
+{
     double pret_total;
     map <Produs, int> fr;
 public:
     CosCumparaturi();
-    CosCumparaturi(vector<Produs> p);
     CosCumparaturi(const CosCumparaturi&);
-    ~CosCumparaturi();
-    friend ostream &operator<<(ostream &os, CosCumparaturi &x);
-    double get_pret();
+    void del (Produs& p, int cantitate);
+    void add(Produs& p, int cantitate);
+    void delete_produs(Produs &p);
+    ~CosCumparaturi() {}
+    friend ostream &operator<<(ostream &os, const CosCumparaturi &x);
+    double get_pret_total() const;
+    void set_pret_total();
+    void delete_cos();
+    map<Produs, int> get_map() const;
 };
 

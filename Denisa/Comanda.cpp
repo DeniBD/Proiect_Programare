@@ -24,16 +24,11 @@ Comanda::~Comanda() {
 }
 
 ostream &operator<<(ostream &os, Comanda &x) {
-    os << "Data plasare comanda: " << *x.data_plasare;
-    os << "\t\tCod de bare produs " << "\t" << "Cantitate produs " << endl;
-    int k = 1;
     for (auto i = 0; i < x.codBare.size(); i++) {
-        os << "Produs " << k++ << "\t\t" << x.codBare[i] << "\t\t\t" << x.nrProduse[i] << endl;
+        os << x.codBare[i] << " " << x.nrProduse[i] << endl;
     }
-    os<<endl;
     return os;
 }
-
 Comanda &Comanda::operator=(const Comanda &x) {
     if (this->data_plasare != nullptr)
         delete this->data_plasare;

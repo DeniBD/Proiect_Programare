@@ -49,6 +49,6 @@ Data::~Data()
 }
 
 ostream &operator<<(ostream &os, Data &x) {
-    cout << x.zi << "." << x.luna << "." << x.an << endl;
+    cout << x.zi << "." << x.luna << "." << x.an;
     return os;
 }

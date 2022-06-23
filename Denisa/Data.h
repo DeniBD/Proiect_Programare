@@ -1,7 +1,3 @@
-//
-// Created by Denisa on 28-May-22.
-//
-
 #ifndef PROIECT_PROGRAMARE_DATA_H
 #define PROIECT_PROGRAMARE_DATA_H
 

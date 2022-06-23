@@ -2,10 +2,6 @@
 // Created by Denisa on 28-May-22.
 //
 
-#ifndef PROIECT_PROGRAMARE_COMANDA_H
-#define PROIECT_PROGRAMARE_COMANDA_H
-
-
 #include "Produs.h"
 #include "Data.h"
 #include <vector>
@@ -26,4 +22,3 @@ public:
 };
 
 
-#endif //PROIECT_PROGRAMARE_COMANDA_H
